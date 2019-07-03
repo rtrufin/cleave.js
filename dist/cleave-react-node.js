@@ -1962,15 +1962,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    getValidatedDate: function getValidatedDate(value) {
 	        var owner = this,
 	            result = '';
-
 	        value = value.replace(/[^\d]/g, '');
-
+	        console.log(value);
 	        owner.blocks.forEach(function (length, index) {
 	            if (value.length > 0) {
 	                var sub = value.slice(0, length),
 	                    sub0 = sub.slice(0, 1),
 	                    rest = value.slice(length);
-
 	                switch (owner.datePattern[index]) {
 	                    case 'd':
 	                        if (sub === '00') {
@@ -1980,7 +1978,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        } else if (parseInt(sub, 10) > 31) {
 	                            sub = '31';
 	                        }
-
 	                        break;
 
 	                    case 'm':
@@ -1991,10 +1988,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        } else if (parseInt(sub, 10) > 12) {
 	                            sub = '12';
 	                        }
-
+	                        break;
+	                    case 'y':
+	                        if (index === 1 && owner.datePattern[0] === 'm' && rest.toString().length === 2) {
+	                            sub = rest;
+	                        }
 	                        break;
 	                }
-
 	                result += sub;
 
 	                // update remaining string
@@ -2058,7 +2058,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            date = this.getFixedDate(day, month, year);
 	        }
-
 	        // mm-yy || yy-mm
 	        if (value.length === 4 && (datePattern[0] === 'y' || datePattern[1] === 'y')) {
 	            monthStartIndex = datePattern[0] === 'm' ? 0 : 2;

@@ -666,21 +666,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    owner.blocks = [];
 	    owner.datePattern = datePattern;
 	    owner.dateMin = dateMin
-	      .split('-')
-	      .reverse()
-	      .map(function(x) {
-	        return parseInt(x, 10);
-	      });
+	        .split('-')
+	        .reverse()
+	        .map(function (x) {
+	            return parseInt(x, 10);
+	        });
 	    if (owner.dateMin.length === 2) owner.dateMin.unshift(0);
 
 	    owner.dateMax = dateMax
-	      .split('-')
-	      .reverse()
-	      .map(function(x) {
-	        return parseInt(x, 10);
-	      });
+	        .split('-')
+	        .reverse()
+	        .map(function (x) {
+	            return parseInt(x, 10);
+	        });
 	    if (owner.dateMax.length === 2) owner.dateMax.unshift(0);
-	    
+
 	    owner.initBlocks();
 	};
 
@@ -711,39 +711,39 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    getValidatedDate: function (value) {
 	        var owner = this, result = '';
-
 	        value = value.replace(/[^\d]/g, '');
-
+	        console.log(value)
 	        owner.blocks.forEach(function (length, index) {
 	            if (value.length > 0) {
 	                var sub = value.slice(0, length),
 	                    sub0 = sub.slice(0, 1),
 	                    rest = value.slice(length);
-
 	                switch (owner.datePattern[index]) {
-	                case 'd':
-	                    if (sub === '00') {
-	                        sub = '01';
-	                    } else if (parseInt(sub0, 10) > 3) {
-	                        sub = '0' + sub0;
-	                    } else if (parseInt(sub, 10) > 31) {
-	                        sub = '31';
-	                    }
+	                    case 'd':
+	                        if (sub === '00') {
+	                            sub = '01';
+	                        } else if (parseInt(sub0, 10) > 3) {
+	                            sub = '0' + sub0;
+	                        } else if (parseInt(sub, 10) > 31) {
+	                            sub = '31';
+	                        }
+	                        break;
 
-	                    break;
-
-	                case 'm':
-	                    if (sub === '00') {
-	                        sub = '01';
-	                    } else if (parseInt(sub0, 10) > 1) {
-	                        sub = '0' + sub0;
-	                    } else if (parseInt(sub, 10) > 12) {
-	                        sub = '12';
-	                    }
-
-	                    break;
+	                    case 'm':
+	                        if (sub === '00') {
+	                            sub = '01';
+	                        } else if (parseInt(sub0, 10) > 1) {
+	                            sub = '0' + sub0;
+	                        } else if (parseInt(sub, 10) > 12) {
+	                            sub = '12';
+	                        }
+	                        break;
+	                    case 'y':
+	                        if(index === 1 && owner.datePattern[0] === 'm' && rest.toString().length === 2) {
+	                            sub = rest
+	                        }
+	                        break
 	                }
-
 	                result += sub;
 
 	                // update remaining string
@@ -774,15 +774,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (value.length === 8) {
 	            datePattern.forEach(function (type, index) {
 	                switch (type) {
-	                case 'd':
-	                    dayIndex = index;
-	                    break;
-	                case 'm':
-	                    monthIndex = index;
-	                    break;
-	                default:
-	                    yearIndex = index;
-	                    break;
+	                    case 'd':
+	                        dayIndex = index;
+	                        break;
+	                    case 'm':
+	                        monthIndex = index;
+	                        break;
+	                    default:
+	                        yearIndex = index;
+	                        break;
 	                }
 	            });
 
@@ -798,7 +798,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            date = this.getFixedDate(day, month, year);
 	        }
-
 	        // mm-yy || yy-mm
 	        if (value.length === 4 && (datePattern[0] === 'y' || datePattern[1] === 'y')) {
 	            monthStartIndex = datePattern[0] === 'm' ? 0 : 2;
@@ -828,14 +827,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var result = date.length === 0 ? value : datePattern.reduce(function (previous, current) {
 	            switch (current) {
-	            case 'd':
-	                return previous + (date[0] === 0 ? '' : owner.addLeadingZero(date[0]));
-	            case 'm':
-	                return previous + (date[1] === 0 ? '' : owner.addLeadingZero(date[1]));
-	            case 'y':
-	                return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], false) : '');
-	            case 'Y':
-	                return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], true) : '');
+	                case 'd':
+	                    return previous + (date[0] === 0 ? '' : owner.addLeadingZero(date[0]));
+	                case 'm':
+	                    return previous + (date[1] === 0 ? '' : owner.addLeadingZero(date[1]));
+	                case 'y':
+	                    return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], false) : '');
+	                case 'Y':
+	                    return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], true) : '');
 	            }
 	        }, '');
 
@@ -851,22 +850,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!date.length || (dateMin.length < 3 && dateMax.length < 3)) return date;
 
 	        if (
-	          datePattern.find(function(x) {
-	            return x.toLowerCase() === 'y';
-	          }) &&
-	          date[2] === 0
+	            datePattern.find(function (x) {
+	                return x.toLowerCase() === 'y';
+	            }) &&
+	            date[2] === 0
 	        ) return date;
 
 	        if (dateMax.length && (dateMax[2] < date[2] || (
-	          dateMax[2] === date[2] && (dateMax[1] < date[1] || (
-	            dateMax[1] === date[1] && dateMax[0] < date[0]
-	          ))
+	            dateMax[2] === date[2] && (dateMax[1] < date[1] || (
+	                dateMax[1] === date[1] && dateMax[0] < date[0]
+	            ))
 	        ))) return dateMax;
 
 	        if (dateMin.length && (dateMin[2] > date[2] || (
-	          dateMin[2] === date[2] && (dateMin[1] > date[1] || (
-	            dateMin[1] === date[1] && dateMin[0] > date[0]
-	          ))
+	            dateMin[2] === date[2] && (dateMin[1] > date[1] || (
+	                dateMin[1] === date[1] && dateMin[0] > date[0]
+	            ))
 	        ))) return dateMin;
 
 	        return date;
