@@ -712,7 +712,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    getValidatedDate: function (value) {
 	        var owner = this, result = '';
 	        value = value.replace(/[^\d]/g, '');
-	        console.log(value)
 	        owner.blocks.forEach(function (length, index) {
 	            if (value.length > 0) {
 	                var sub = value.slice(0, length),
@@ -742,7 +741,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        if(index === 1 && owner.datePattern[0] === 'm' && rest.toString().length === 2) {
 	                            sub = rest
 	                        }
-	                        break
+	                        break;
 	                }
 	                result += sub;
 
