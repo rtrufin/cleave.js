@@ -52,8 +52,8 @@ DateFormatter.prototype = {
 
     getValidatedDate: function (value) {
         var owner = this, result = '';
-
         value = value.replace(/[^\d]/g, '');
+        console.log(value)
         owner.blocks.forEach(function (length, index) {
             if (value.length > 0) {
                 var sub = value.slice(0, length),
@@ -68,7 +68,6 @@ DateFormatter.prototype = {
                         } else if (parseInt(sub, 10) > 31) {
                             sub = '31';
                         }
-
                         break;
 
                     case 'm':

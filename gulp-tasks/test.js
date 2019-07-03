@@ -32,7 +32,7 @@ gulp.task('unit:numeral', function () {
 });
 
 gulp.task('unit', function () {
-    return gulp.src(path.join(paths.test, 'unit/**/*_spec.js'), {read: false})
+    return gulp.src(path.join(paths.test, 'unit/**/DateFormatter_spec.js'), {read: false})
         .pipe(mocha({reporter: 'spec'}));
 });
 
